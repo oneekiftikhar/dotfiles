@@ -1,0 +1,9 @@
+[user]
+	name = Oneek Iftikhar
+	email = oneek.iftikhar@gmail.com
+[init]
+	defaultBranch = main
+[pull]
+	rebase = true
+[core]
+	editor = code --wait

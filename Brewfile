@@ -1,0 +1,13 @@
+brew "git"
+brew "gh"
+brew "eza"
+brew "bat"
+brew "ripgrep"
+brew "fd"
+brew "zoxide"
+brew "fzf"
+brew "jq"
+brew "fnm"
+
+cask "ghostty"
+cask "visual-studio-code"
