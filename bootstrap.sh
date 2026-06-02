@@ -48,4 +48,31 @@ symlink zsh/.zshrc ~/.zshrc
 symlink p10k/.p10k.zsh ~/.p10k.zsh
 symlink git/.gitconfig ~/.gitconfig
 
+# 7. AI assistant personal context (append, idempotent)
+inject_ai_context() {
+  local src="$DOTFILES_DIR/$1"
+  local dst="$2"
+  local marker="# --- BEGIN DOTFILES PERSONAL CONTEXT ---"
+  local end_marker="# --- END DOTFILES PERSONAL CONTEXT ---"
+
+  mkdir -p "$(dirname "$dst")"
+
+  if [ -f "$dst" ] && grep -q "$marker" "$dst"; then
+    sed -i "/$marker/,/$end_marker/d" "$dst"
+  fi
+
+  {
+    echo ""
+    echo "$marker"
+    cat "$src"
+    echo "$end_marker"
+  } >> "$dst"
+
+  echo "  ✓ $dst (injected)"
+}
+
+echo "Injecting AI personal context..."
+inject_ai_context claude/CLAUDE.md ~/.claude/CLAUDE.md
+inject_ai_context codex/AGENTS.md ~/AGENTS.md
+
 echo "✅ Done. Restart your terminal."
