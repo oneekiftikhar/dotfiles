@@ -6,5 +6,13 @@
 ## Defaults
 - When creating Jira tickets, default to the ACT project unless specified otherwise
 
-## Additional Context
-<!-- Add more personal context here as needed -->
+## Code Style Preferences
+- **Plain functions over closure factories** — add extra context as explicit parameters, bind at the call site
+- **`useMemo` over `useCallback`** for derived functions (not user interaction handlers). Prefix with `memoized`
+- **Keep return statements clean** — move logic, closures, and derivations above the return. Prioritize readability over brevity
+- **Platform-level fixes** — fix shared components rather than adding per-caller workarounds
+- **Testing: `getByLabelText`** over `getByRole("img", { name })` for aria-label queries
+
+## Meta
+- After resolving feedback on plans or code, ask what should be added to this file so the lesson isn't repeated. Adjust existing entries rather than appending to keep the file short.
+- Do not use the memory system (`~/.claude/projects/.../memory/`). It doesn't survive devcontainer rebuilds. This file is the durable store for preferences.
