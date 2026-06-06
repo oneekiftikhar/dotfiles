@@ -62,6 +62,7 @@ alias gl='git log --oneline --graph --decorate'
 alias gd='git diff'
 alias gco='git checkout'
 alias gb='git branch'
+alias gpo='git pull origin main'
 
 # ─────────────────────────────────────────────
 # FUNCTIONS
