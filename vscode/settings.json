@@ -1,0 +1,12 @@
+{
+  "git.ignoreRebaseWarning": true,
+  "remote.SSH.remotePlatform": {
+    "*.gitpod.local": "linux",
+    "*.gitpod.remote": "linux"
+  },
+  "claudeCode.preferredLocation": "panel",
+  "terminal.integrated.defaultProfile.linux": "zsh",
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.external.osxExec": "/Applications/Ghostty.app",
+  "claudeCode.useTerminal": true
+}
