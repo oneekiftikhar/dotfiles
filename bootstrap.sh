@@ -2,6 +2,8 @@
 set -e
 echo "🚀 Bootstrapping dev environment..."
 
+DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+
 # 1. Homebrew — detect or install, then ensure it's on PATH for this script
 if ! command -v brew &>/dev/null; then
   if [[ -f /home/linuxbrew/.linuxbrew/bin/brew ]]; then
@@ -20,7 +22,11 @@ if ! command -v brew &>/dev/null; then
 fi
 
 # 2. Packages
-brew bundle --file="$(dirname "$0")/Brewfile"
+brew bundle --file="$DOTFILES_DIR/Brewfile"
+
+if [[ "$(uname -s)" != "Darwin" ]]; then
+  echo "Skipping Ghostty on Linux; remote/headless hosts should use zsh via VS Code/SSH."
+fi
 
 # 3. Oh My Zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
@@ -44,8 +50,6 @@ if [ ! -d "$ZSH_CUSTOM/themes/powerlevel10k" ]; then
 fi
 
 # 6. Symlinks
-DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
-
 symlink() {
   local src="$DOTFILES_DIR/$1"
   local dst="$2"
@@ -58,6 +62,13 @@ echo "Creating symlinks..."
 symlink zsh/.zshrc ~/.zshrc
 symlink p10k/.p10k.zsh ~/.p10k.zsh
 symlink git/.gitconfig ~/.gitconfig
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  symlink vscode/settings.json "$HOME/Library/Application Support/Code/User/settings.json"
+elif [[ -d "$HOME/.config/Code/User" ]]; then
+  symlink vscode/settings.json "$HOME/.config/Code/User/settings.json"
+else
+  echo "  - VS Code user settings path not found; skipping"
+fi
 
 # 7. AI assistant personal context (append, idempotent)
 inject_ai_context() {

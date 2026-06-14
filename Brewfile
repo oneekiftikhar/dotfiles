@@ -9,5 +9,7 @@ brew "fzf"
 brew "jq"
 brew "fnm"
 
-cask "ghostty"
-cask "visual-studio-code"
+if OS.mac?
+  cask "ghostty"
+  cask "visual-studio-code"
+end
