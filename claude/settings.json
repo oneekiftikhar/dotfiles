@@ -1,0 +1,6 @@
+{
+  "remoteControlAtStartup": true,
+  "enabledPlugins": {
+    "team-activation@obsidian-local": true
+  }
+}

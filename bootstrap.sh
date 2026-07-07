@@ -97,4 +97,24 @@ echo "Injecting AI personal context..."
 inject_ai_context claude/CLAUDE.md ~/.claude/CLAUDE.md
 inject_ai_context codex/AGENTS.md ~/AGENTS.md
 
+# 8. Claude settings overrides (deep-merge, idempotent). We merge rather than
+# symlink because Claude Code rewrites ~/.claude/settings.json at runtime; the
+# override wins on conflicts, so Claude-managed keys are preserved.
+merge_claude_settings() {
+  local src="$DOTFILES_DIR/$1"
+  local dst="$2"
+  mkdir -p "$(dirname "$dst")"
+  if [ -f "$dst" ]; then
+    local tmp
+    tmp="$(mktemp)"
+    jq -s '.[0] * .[1]' "$dst" "$src" > "$tmp" && mv "$tmp" "$dst"
+  else
+    cp "$src" "$dst"
+  fi
+  echo "  ✓ $dst (merged)"
+}
+
+echo "Merging Claude settings overrides..."
+merge_claude_settings claude/settings.json ~/.claude/settings.json
+
 echo "✅ Done. Restart your terminal."
